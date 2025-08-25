@@ -1,24 +1,30 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+### 1. Start the PostgreSQL Database
 
-* System dependencies
+Ensure your PostgreSQL database is running using Docker Compose:
 
-* Configuration
+```bash
+docker-compose up -d db
+```
 
-* Database creation
+### 2. Create and Migrate the Database
 
-* Database initialization
+Run the following commands to create your databases and apply migrations:
 
-* How to run the test suite
+```bash
+docker run --rm --network spark_clinic_default -e DATABASE_URL=postgresql://postgres:password@db/spark_clinic_development -e SECRET_KEY_BASE=a_dummy_secret_key_for_demo_purposes spark_clinic bundle exec rails db:create db:migrate
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### 3. Start the Rails Server
 
-* Deployment instructions
+Once the database is set up, you can start the Rails server:
 
-* ...
+```bash
+docker run -p 3000:3000 --rm --network spark_clinic_default -e DATABASE_URL=postgresql://postgres:password@db/spark_clinic_development -e SECRET_KEY_BASE=a_dummy_secret_key_for_demo_purposes spark_clinic bundle exec rails server -b 0.0.0.0
+```
+
+Your application should then be accessible at `http://localhost:3000`.

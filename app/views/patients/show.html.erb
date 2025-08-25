@@ -1,0 +1,14 @@
+<h1><%= @patient.name %></h1>
+<table>
+  <thead><tr><th>Type</th><th>Code</th><th>Value</th><th>Recorded</th></tr></thead>
+  <tbody>
+  <% @observations.each do |o| %>
+    <tr>
+      <td><%= o.type %></td>
+      <td><%= o.code %></td>
+      <td><%= o.display_result %></td>
+      <td><%= o.recorded_at.utc.iso8601 %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
