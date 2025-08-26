@@ -1,0 +1,28 @@
+!!! 5
+%html
+  %head
+    %title= content_for(:title) || "Spark Clinic"
+    %meta{name: "viewport", content: "width=device-width,initial-scale=1"}
+    %meta{name: "apple-mobile-web-app-capable", content: "yes"}
+    %meta{name: "mobile-web-app-capable", content: "yes"}
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = yield :head
+
+    -# Enable PWA manifest for installable apps (enable in routes if desired)
+    -# = tag.link rel: "manifest", href: pwa_manifest_path(format: :json)
+
+    %link{rel: "icon", href: "/icon.svg", type: "image/svg+xml"}
+    %link{rel: "icon", href: "/icon.png", type: "image/png"}
+
+    = stylesheet_link_tag :app, "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  %body{class: theme_class}
+    - if flash[:notice]
+      %p.flash.flash-notice.container= flash[:notice]
+    - if flash[:alert]
+      %p.flash.flash-alert.container= flash[:alert]
+
+    = render 'shared/header'
+    = yield

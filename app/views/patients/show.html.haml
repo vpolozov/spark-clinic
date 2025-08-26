@@ -1,0 +1,19 @@
+.container
+  .card
+    %h1= @patient.name
+    %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
+
+  - @observations.each do |o|
+    .card
+      %div
+        %strong Type:
+        = o.type.demodulize
+      %div
+        %strong Code:
+        = o.code
+      %div
+        %strong Value:
+        = o.display_result
+      %div.muted
+        %strong Recorded:
+        = o.recorded_at&.utc&.iso8601

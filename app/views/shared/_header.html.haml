@@ -1,0 +1,12 @@
+%header{style: "border-bottom:1px solid var(--border); background: var(--card);"}
+  .container{style: "display:flex; align-items:center; gap:1rem;"}
+    %div{style: "flex:1 1 auto;"}
+      = link_to 'Spark Clinic', root_path, class: 'brand'
+    %div
+      = form_with url: switch_account_path, method: :post, local: true do |f|
+        %label.muted{for: "account_switch"} Account
+        %select{name: "account", id: "account_switch", onchange: "this.form.submit()"}
+          - Account.order(:name).each do |acct|
+            %option{value: acct.id, selected: (acct == Current.account)}= acct.name
+    %div
+      = link_to 'Account Settings', edit_account_path, class: 'btn'

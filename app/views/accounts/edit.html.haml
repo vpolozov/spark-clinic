@@ -1,0 +1,20 @@
+.container
+  .card
+    %h1 Edit Account
+    %p.muted Change the name and theme for this account.
+
+  .card
+    = form_with model: @account, url: account_path, method: :patch, local: true do |f|
+      %div
+        = f.label :name
+        %br/
+        = f.text_field :name
+
+      %div{style: "margin-top: .75rem;"}
+        = f.label :theme
+        %br/
+        = f.select :theme, @themes.map { |t| [t.titleize, t] }, include_blank: 'light'
+        %div.muted Options: light, dark, ocean, blue, green
+
+      %div{style: "margin-top: 1rem;"}
+        = f.submit 'Save', class: 'btn'

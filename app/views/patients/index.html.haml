@@ -1,0 +1,8 @@
+.container
+  .card
+    %h1= "Patients (#{Current.account&.name})"
+    %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
+
+  - @patients.each do |p|
+    .card
+      = link_to p.name, patient_path(p), class: 'btn'
