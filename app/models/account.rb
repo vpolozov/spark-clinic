@@ -24,8 +24,6 @@ class Account < ApplicationRecord
 
   private
 
-  private
-
     def generate_slug
       return if slug.present? && slug_changed? == false
       base = name.to_s.downcase
@@ -33,6 +31,7 @@ class Account < ApplicationRecord
                  .strip
                  .gsub(/\s+/, "-")
                  .gsub(/-+/, "-")
+                 .delete_suffix("-clinic")
       base = "account" if base.blank?
 
       candidate = base

@@ -1,6 +1,11 @@
-<h1>Patients (<%= Current.account&.name %>)</h1>
-<ul>
+<div class="container">
+  <div class="card">
+    <h1>Patients (<%= Current.account&.name %>)</h1>
+  </div>
+
   <% @patients.each do |p| %>
-    <li><%= link_to p.name, patient_path(p) %></li>
+    <div class="card">
+      <%= link_to p.name, patient_path(p), class: 'btn' %>
+    </div>
   <% end %>
-</ul>
+</div>

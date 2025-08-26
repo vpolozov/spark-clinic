@@ -3,13 +3,18 @@ Patient.destroy_all
 Observation.destroy_all
 
 a1 = Account.create!(name: "Blue Clinic", settings: {
-  theme: "blue", round_values: true,
-  bp_systolic_high: 180, bp_diastolic_high: 110, glucose_high: 180,
+  theme: "blue",
+  bp_systolic_high: 160, bp_diastolic_high: 100, glucose_high: 150,
   webhook_url: "/dev/webhook_sink"
 })
 a2 = Account.create!(name: "Green Clinic", settings: {
-  theme: "green", round_values: false,
+  theme: "green",
   bp_systolic_high: 160, bp_diastolic_high: 100, glucose_high: 150,
+  webhook_url: "/dev/webhook_sink"
+})
+a3 = Account.create!(name: "Pecan Clinic", settings: {
+  theme: "light",
+  bp_systolic_high: 180, bp_diastolic_high: 110, glucose_high: 180,
   webhook_url: "/dev/webhook_sink"
 })
 
@@ -20,6 +25,8 @@ end
 p1 = create_patient!(a1, "PT-1001", "Alice")
 p2 = create_patient!(a1, "PT-1002", "Bob")
 p3 = create_patient!(a2, "PT-2001", "Carlos")
+p4 = create_patient!(a3, "PT-3001", "John Doe")
+p5 = create_patient!(a3, "PT-3002", "Moris Trail")
 
 def weight!(acct, pat, val, t, unit: 'kg')
   Observation::Weight.create!(account: acct, patient: pat, code: 'WEIGHT',
@@ -68,5 +75,17 @@ weight!(a2, p3, 68.3, now - 4.days)
 glucose!(a2, p3, 180, now - 3.hours)
 
 bp!(a2, p3, 160, 100, now - 4.hours)
+
+# John (Pecan Clinic)
+
+bp!(a3, p4, 160, 100, now - 1.hour)
+
+# Moris (Pecan Clinic)
+
+weight!(a3, p5, 88.6, now - 4.days)
+
+glucose!(a3, p5, 120, now - 3.hours)
+
+bp!(a3, p5, 130, 85, now - 4.hours)
 
 puts "Seeded: Accounts=#{Account.count}, Patients=#{Patient.count}, Obs=#{Observation.count}"

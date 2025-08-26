@@ -87,6 +87,24 @@ BASE=http://localhost:3000
 ACCOUNT=your-slug
 ```
 
+## Theming Demo
+
+This app includes a basic theme system using CSS variables (no build step required). The current theme comes from `Account#theme` and is applied as a class on the `<body>` (`theme-light`, `theme-dark`, `theme-ocean`).
+
+- Files:
+  - `app/assets/stylesheets/theme.css` – defines theme variables and simple UI styles.
+  - `app/views/layouts/application.html.erb` – applies a `theme-*` class from the current account.
+  - `app/views/patients/*` – uses styles to demonstrate theming.
+
+Set a theme from the Rails console:
+
+```
+account = Account.first
+account.update!(theme: 'dark')   # options: light (default), dark, ocean, blue, green
+```
+
+Reload the page to see the theme take effect.
+
 Examples:
 
 ```

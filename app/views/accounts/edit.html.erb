@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="card">
+    <h1>Edit Account</h1>
+    <p class="muted">Change the name and theme for this account.</p>
+  </div>
+
+  <div class="card">
+    <%= form_with model: @account, url: account_path, method: :patch, local: true do |f| %>
+
+      <div>
+        <%= f.label :name %><br>
+        <%= f.text_field :name %>
+      </div>
+
+      <div style="margin-top: .75rem;">
+        <%= f.label :theme %><br>
+        <%= f.select :theme, @themes.map { |t| [t.titleize, t] }, include_blank: 'default' %>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <%= f.submit 'Save', class: 'btn' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

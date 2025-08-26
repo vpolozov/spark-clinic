@@ -1,0 +1,99 @@
+/* Base variables (fallbacks) */
+:root {
+  --bg: #ffffff;
+  --fg: #1f2937; /* gray-800 */
+  --muted: #6b7280; /* gray-500 */
+  --card: #f9fafb; /* gray-50 */
+  --border: #e5e7eb; /* gray-200 */
+  --accent: #2563eb; /* blue-600 */
+}
+
+/* Light theme (default) */
+.theme-light {
+  --bg: #ffffff;
+  --fg: #111827; /* gray-900 */
+  --muted: #6b7280;
+  --card: #f9fafb;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+}
+
+/* Dark theme */
+.theme-dark {
+  --bg: #0b1220;
+  --fg: #e5e7eb;
+  --muted: #9ca3af;
+  --card: #121a2b;
+  --border: #1f2937;
+  --accent: #60a5fa;
+}
+
+/* Ocean theme */
+.theme-ocean {
+  --bg: #f0f9ff;
+  --fg: #0f172a;
+  --muted: #334155;
+  --card: #e0f2fe;
+  --border: #bae6fd;
+  --accent: #0284c7;
+}
+
+/* Blue theme */
+.theme-blue {
+  --bg: #f8fbff;
+  --fg: #0f172a; /* slate-900 */
+  --muted: #475569; /* slate-600 */
+  --card: #eef4ff; /* indigo-50-ish */
+  --border: #c7d2fe; /* indigo-200 */
+  --accent: #2563eb; /* blue-600 */
+}
+
+/* Green theme */
+.theme-green {
+  --bg: #f0fdf4; /* green-50 */
+  --fg: #052e16; /* green-950 */
+  --muted: #166534; /* green-700 */
+  --card: #dcfce7; /* green-100 */
+  --border: #bbf7d0; /* green-200 */
+  --accent: #16a34a; /* green-600 */
+}
+
+/* Apply variables */
+html, body {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+a { color: var(--accent); }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.muted { color: var(--muted); }
+
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+}
+
+header .btn { padding: 0.35rem 0.6rem; }
+
+.flash { margin: 0; padding: 0.75rem 1rem; }
+.flash-notice { background: #ecfdf5; color: #065f46; }
+.flash-alert { background: #fef2f2; color: #991b1b; }

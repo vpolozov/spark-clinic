@@ -1,14 +1,14 @@
-<h1><%= @patient.name %></h1>
-<table>
-  <thead><tr><th>Type</th><th>Code</th><th>Value</th><th>Recorded</th></tr></thead>
-  <tbody>
+<div class="container">
+  <div class="card">
+    <h1><%= @patient.name %></h1>
+  </div>
+
   <% @observations.each do |o| %>
-    <tr>
-      <td><%= o.type %></td>
-      <td><%= o.code %></td>
-      <td><%= o.display_result %></td>
-      <td><%= o.recorded_at.utc.iso8601 %></td>
-    </tr>
+    <div class="card">
+      <div><strong>Type:</strong> <%= o.type.demodulize %></div>
+      <div><strong>Code:</strong> <%= o.code %></div>
+      <div><strong>Value:</strong> <%= o.display_result %></div>
+      <div class="muted"><strong>Recorded:</strong> <%= o.recorded_at&.utc&.iso8601 %></div>
+    </div>
   <% end %>
-  </tbody>
-</table>
+</div>
