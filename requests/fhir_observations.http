@@ -16,7 +16,7 @@ Content-Type: application/json
   "patient_external_id": "{{patient}}",
   "type": "glucose",
   "code": "GLU",
-  "recorded_at": "2025-08-25T12:00:00Z",
+  "recorded_at": "2025-08-26T12:00:00Z",
   "value": 98,
   "unit": "mg/dL"
 }

@@ -16,5 +16,11 @@
         = f.select :theme, @themes.map { |t| [t.titleize, t] }, include_blank: 'light'
         %div.muted Options: light, dark, ocean, blue, green
 
+      %div{style: "margin-top: .75rem;"}
+        = f.label :webhook_url, 'Webhook URL'
+        %br/
+        = f.url_field :webhook_url, placeholder: 'https://example.com/webhooks/observations'
+        %div.muted We'll POST a FHIR Observation JSON on new observations.
+
       %div{style: "margin-top: 1rem;"}
         = f.submit 'Save', class: 'btn'

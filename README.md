@@ -105,6 +105,14 @@ account.update!(theme: 'dark')   # options: light (default), dark, ocean, blue, 
 
 Reload the page to see the theme take effect.
 
+## Webhook on New Observations
+
+If `Account#webhook_url` is set, every newly created Observation triggers a background job that POSTs the FHIR Observation JSON to that URL.
+
+- Settings: update in Account Settings page (or via console `account.update!(webhook_url: 'https://...')`).
+- Payload: same shape as shown in GET responses (via `Fhir::ObservationPresenter`).
+- Headers: `Content-Type: application/fhir+json; charset=utf-8`.
+
 Examples:
 
 ```

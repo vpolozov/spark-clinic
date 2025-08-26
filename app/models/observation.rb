@@ -65,4 +65,13 @@ class Observation < ApplicationRecord
     Observation
   end
 
+  after_commit :notify_webhook_async, on: :create
+
+  private
+
+    def notify_webhook_async
+      return unless account&.webhook_url.present?
+      Observations::WebhookNotifyJob.perform_later(id)
+    end
+
 end

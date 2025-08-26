@@ -37,6 +37,6 @@ class AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :theme)
+    params.require(:account).permit(:name, :theme, :webhook_url)
   end
 end
