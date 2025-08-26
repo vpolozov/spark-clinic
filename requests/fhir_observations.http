@@ -1,0 +1,62 @@
+@base = http://localhost:3000
+@account = your-slug
+
+### List observations (all)
+GET {{base}}/api/v1/fhir/observations?account={{account}}
+
+### List observations for a patient
+GET {{base}}/api/v1/fhir/observations?account={{account}}&patient_external_id=P1
+
+### Create glucose (mg/dL)
+POST {{base}}/api/v1/fhir/observations?account={{account}}
+Content-Type: application/json
+
+{
+  "patient_external_id": "P1",
+  "type": "Observation::Glucose",
+  "code": "GLU",
+  "recorded_at": "2025-08-25T12:00:00Z",
+  "value": 98,
+  "unit": "mg/dL"
+}
+
+### Create glucose (short type, mmol/L)
+POST {{base}}/api/v1/fhir/observations?account={{account}}
+Content-Type: application/json
+
+{
+  "patient_external_id": "P1",
+  "type": "glucose",
+  "code": "GLU",
+  "recorded_at": "2025-08-25T12:05:00Z",
+  "value": 5.4,
+  "unit": "mmol/L"
+}
+
+### Create blood pressure
+POST {{base}}/api/v1/fhir/observations?account={{account}}
+Content-Type: application/json
+
+{
+  "patient_external_id": "P1",
+  "type": "blood_pressure",
+  "code": "BP",
+  "recorded_at": "2025-08-25T12:30:00Z",
+  "systolic": 120,
+  "diastolic": 80,
+  "unit": "mmHg"
+}
+
+### Create weight
+POST {{base}}/api/v1/fhir/observations?account={{account}}
+Content-Type: application/json
+
+{
+  "patient_external_id": "P1",
+  "type": "Observation::Weight",
+  "code": "WEIGHT",
+  "recorded_at": "2025-08-25T13:00:00Z",
+  "value": 72.5,
+  "unit": "kg"
+}
+

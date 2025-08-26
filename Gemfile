@@ -49,6 +49,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # RSpec for behavior-driven tests
+  gem "rspec-rails", ">= 6.1", require: false
 end
 
 group :development do

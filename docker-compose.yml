@@ -1,4 +1,25 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      # Override database.yml with Compose database connection
+      DATABASE_URL: postgres://postgres:password@db:5432/spark_clinic_development
+    volumes:
+      # Bind mount app code for instant reload on changes
+      - .:/rails:cached
+      # Persist installed gems between container restarts
+      - bundle:/usr/local/bundle
+    working_dir: /rails
+    entrypoint: ["./bin/docker-entrypoint"]
+    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    ports:
+      - "3000:3000"
+
   db:
     image: postgres:13-alpine
     volumes:
@@ -12,3 +33,4 @@ services:
 
 volumes:
   postgres_data:
+  bundle:

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :fhir do
-        resources :observations, only: :create, defaults: { format: :json }
+        resources :observations, only: [:create, :index], defaults: { format: :json }
         resources :bundles, only: :create, defaults: { format: :json }
       end
     end

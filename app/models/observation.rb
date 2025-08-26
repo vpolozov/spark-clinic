@@ -21,9 +21,7 @@ class Observation < ApplicationRecord
 
   scope :recent, -> { order(recorded_at: :desc) }
 
-  def code
-    TYPES.key(type)&.to_s
-  end
+  def kind = TYPES.key(type)
 
   def display_result
     # Simple quantity
@@ -50,6 +48,21 @@ class Observation < ApplicationRecord
     else
       true
     end
+  end
+
+  # Resolve a class from a type string. Accepts:
+  # - nil/blank -> Observation
+  # - short names (glucose, blood_pressure, weight) -> corresponding STI subclass
+  # - fully qualified class names (e.g., "Observation::Glucose")
+  def self.resolve_class(type)
+    return Observation if type.blank?
+
+    mapped = TYPES[type.to_s.downcase.to_sym]
+    return mapped.constantize if mapped
+
+    type.constantize
+  rescue NameError
+    Observation
   end
 
 end
