@@ -8,7 +8,7 @@ class Api::V1::Fhir::ObservationsController < Api::BaseController
       observations = observations.joins(:patient).where(patients: { external_id: params[:patient_external_id] })
     end
     observations = observations.where(code: params[:code]) if params[:code].present?
-    observations = observations.where(type: params[:type]) if params[:type].present?
+    observations = observations.with_kind(params[:type]) if params[:type].present?
 
     render json: Fhir::BundlePresenter.new(observations).as_json
   end

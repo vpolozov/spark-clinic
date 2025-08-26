@@ -18,7 +18,7 @@ class Observation < ApplicationRecord
   TYPES.each do |code, class_name|
     scope code, -> { where(type: class_name) }
   end
-
+  scope :with_kind, -> (kind) { where(type: TYPES[kind]) }
   scope :recent, -> { order(recorded_at: :desc) }
 
   def self.kind = TYPES.key(name)
