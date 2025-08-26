@@ -1,5 +1,6 @@
 @base = http://localhost:3000
-@account = your-slug
+@account = pecan
+@patient = PT-3001
 
 ### List observations (all)
 GET {{base}}/api/v1/fhir/observations?account={{account}}
@@ -12,8 +13,8 @@ POST {{base}}/api/v1/fhir/observations?account={{account}}
 Content-Type: application/json
 
 {
-  "patient_external_id": "P1",
-  "type": "Observation::Glucose",
+  "patient_external_id": "{{patient}}",
+  "type": "glucose",
   "code": "GLU",
   "recorded_at": "2025-08-25T12:00:00Z",
   "value": 98,
@@ -25,7 +26,7 @@ POST {{base}}/api/v1/fhir/observations?account={{account}}
 Content-Type: application/json
 
 {
-  "patient_external_id": "P1",
+  "patient_external_id": "{{patient}}",
   "type": "glucose",
   "code": "GLU",
   "recorded_at": "2025-08-25T12:05:00Z",
@@ -38,7 +39,7 @@ POST {{base}}/api/v1/fhir/observations?account={{account}}
 Content-Type: application/json
 
 {
-  "patient_external_id": "P1",
+  "patient_external_id": "{{patient}}",
   "type": "blood_pressure",
   "code": "BP",
   "recorded_at": "2025-08-25T12:30:00Z",
@@ -52,8 +53,8 @@ POST {{base}}/api/v1/fhir/observations?account={{account}}
 Content-Type: application/json
 
 {
-  "patient_external_id": "P1",
-  "type": "Observation::Weight",
+  "patient_external_id": "{{patient}}",
+  "type": "weight",
   "code": "WEIGHT",
   "recorded_at": "2025-08-25T13:00:00Z",
   "value": 72.5,

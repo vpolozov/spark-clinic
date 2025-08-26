@@ -15,7 +15,7 @@ Authentication: none (scoped by `account` param or subdomain). Ensure the `accou
 Example:
 
 ```
-curl "$BASE/api/v1/fhir/observations?account=$ACCOUNT&patient_external_id=P1"
+curl "$BASE/api/v1/fhir/observations?account=$ACCOUNT&patient_external_id=PT-1001"
 ```
 
 Response (truncated):
@@ -31,7 +31,7 @@ Response (truncated):
         "resourceType": "Observation",
         "status": "final",
         "code": {"text":"GLU"},
-        "subject": {"reference":"Patient/P1"},
+        "subject": {"reference":"Patient/PT-1001"},
         "valueQuantity": {"value":95, "unit":"mg/dL"}
       }
     }
@@ -46,7 +46,7 @@ Enqueues `Observations::Fhir::IngestJob` to create an Observation.
 Body (JSON):
 
 - `patient_external_id` (required)
-- `type` (optional): fully qualified (e.g., `Observation::Glucose`) or short (`glucose`, `blood_pressure`, `weight`)
+- `type` (optional): short (`glucose`, `blood_pressure`, `weight`)
 - `code` (optional)
 - `recorded_at` (optional ISO8601; falls back to current time)
 - Quantity fields: `value`, `unit`
@@ -58,12 +58,12 @@ Examples:
 # Glucose
 curl -X POST "$BASE/api/v1/fhir/observations?account=$ACCOUNT" \
   -H "Content-Type: application/json" \
-  -d '{"patient_external_id":"P1","type":"Observation::Glucose","code":"GLU","recorded_at":"2025-08-25T12:00:00Z","value":98,"unit":"mg/dL"}'
+  -d '{"patient_external_id":"PT-1001","type":"glucose","code":"GLU","recorded_at":"2025-08-25T12:00:00Z","value":98,"unit":"mg/dL"}'
 
 # Blood pressure (short type)
 curl -X POST "$BASE/api/v1/fhir/observations?account=$ACCOUNT" \
   -H "Content-Type: application/json" \
-  -d '{"patient_external_id":"P1","type":"blood_pressure","code":"BP","recorded_at":"2025-08-25T12:30:00Z","systolic":120,"diastolic":80,"unit":"mmHg"}'
+  -d '{"patient_external_id":"PT-1001","type":"blood_pressure","code":"BP","recorded_at":"2025-08-25T12:30:00Z","systolic":120,"diastolic":80,"unit":"mmHg"}'
 ```
 
 Notes:

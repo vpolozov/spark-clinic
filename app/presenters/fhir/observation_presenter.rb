@@ -1,5 +1,8 @@
 module Fhir
   class ObservationPresenter
+
+    attr_reader :observation
+
     def initialize(observation)
       @observation = observation
     end
@@ -24,13 +27,13 @@ module Fhir
 
       if observation.is_a?(Observation::BloodPressure)
         components = []
-        if observation.respond_to?(:systolic) && observation.systolic.present?
+        if observation.systolic.present?
           components << {
             code: { text: 'Systolic blood pressure' },
             valueQuantity: { value: observation.systolic.to_f, unit: observation.unit || 'mmHg' }
           }
         end
-        if observation.respond_to?(:diastolic) && observation.diastolic.present?
+        if observation.diastolic.present?
           components << {
             code: { text: 'Diastolic blood pressure' },
             valueQuantity: { value: observation.diastolic.to_f, unit: observation.unit || 'mmHg' }
@@ -42,9 +45,6 @@ module Fhir
       base
     end
 
-    private
-
-      attr_reader :observation
   end
 end
 
