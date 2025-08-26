@@ -21,6 +21,7 @@ class Observation < ApplicationRecord
 
   scope :recent, -> { order(recorded_at: :desc) }
 
+  def self.kind = TYPES.key(name)
   def kind = TYPES.key(type)
 
   def display_result

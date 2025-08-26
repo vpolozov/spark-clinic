@@ -64,4 +64,30 @@ RSpec.describe Observations::Fhir::IngestJob, type: :job do
     obs = Observation::Glucose.last
     expect(obs.recorded_at).to be_within(10.seconds).of(now)
   end
+
+  context 'reference ranges and interpretation' do
+    it 'applies account range and sets interpretation for glucose' do
+      account.update!(settings: account.settings.merge('reference_ranges' => { 'glucose' => { 'unit' => 'mg/dL', 'low' => 70, 'high' => 100 } }))
+      attrs = { 'patient_external_id' => 'P1', 'type' => 'glucose', 'code' => 'GLU', 'recorded_at' => '2025-08-25T12:00:00Z', 'value' => 120, 'unit' => 'mg/dL' }
+      described_class.new.perform(account.id, attrs)
+      obs = Observation::Glucose.last
+      expect(obs.reference_range).to include('low' => 70, 'high' => 100)
+      expect(obs.interpretation).to eq('high')
+    end
+
+    it 'applies bp ranges and marks normal/high/low' do
+      account.update!(settings: account.settings.merge('reference_ranges' => {
+        'blood_pressure' => {
+          'unit' => 'mmHg',
+          'systolic' => { 'low' => 90, 'high' => 120 },
+          'diastolic' => { 'low' => 60, 'high' => 80 }
+        }
+      }))
+      attrs = { 'patient_external_id' => 'P1', 'type' => 'blood_pressure', 'code' => 'BP', 'recorded_at' => '2025-08-25T12:00:00Z', 'systolic' => 125, 'diastolic' => 85, 'unit' => 'mmHg' }
+      described_class.new.perform(account.id, attrs)
+      obs = Observation::BloodPressure.last
+      expect(obs.reference_range['systolic']).to include('high' => 120)
+      expect(obs.interpretation).to eq('high')
+    end
+  end
 end

@@ -2,10 +2,7 @@ class Account < ApplicationRecord
   has_many :patients, dependent: :destroy
   has_many :observations, dependent: :destroy
 
-  store_accessor :settings, :theme,
-                 #:round_values,
-                 #:bp_systolic_high, :bp_diastolic_high, :glucose_high,
-                 :webhook_url
+  store_accessor :settings, :theme, :webhook_url
 
   validates :name, presence: true
   validates :slug,
@@ -20,6 +17,30 @@ class Account < ApplicationRecord
     return order(created_at: :desc).first if identifier.blank?
 
     find_by(id: identifier) || find_by(slug: identifier)
+  end
+
+  # Returns the hash of reference ranges stored under settings['reference_ranges'].
+  # Example shapes:
+  # {
+  #   "glucose": {"unit": "mg/dL", "low": 70, "high": 100},
+  #   "GLU": {"unit": "mg/dL", "low": 70, "high": 100},
+  #   "blood_pressure": {
+  #     "unit": "mmHg",
+  #     "systolic": {"low": 90, "high": 120},
+  #     "diastolic": {"low": 60, "high": 80}
+  #   }
+  # }
+  def reference_ranges
+    settings.fetch('reference_ranges', {}) || {}
+  end
+
+  # Find a reference range for an observation by code or type.
+  # Returns a hash or nil.
+  def reference_range_for(kind)
+    ranges = reference_ranges
+    return nil if ranges.blank?
+    rr = ranges[kind.to_s] if kind.present?
+    rr.presence
   end
 
   private

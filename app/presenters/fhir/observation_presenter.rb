@@ -13,7 +13,7 @@ module Fhir
         id: observation.id,
         status: observation.status || 'final',
         category: observation.category ? [{ text: observation.category }] : nil,
-        code: { text: observation.code.presence || observation.kind },
+        code: { text: observation.code.presence || observation.type.demodulize },
         subject: { reference: "Patient/#{observation.patient.external_id}" },
         effectiveDateTime: observation.recorded_at&.iso8601
       }.compact
@@ -25,19 +25,53 @@ module Fhir
         }
       end
 
+      # Interpretation (simple textual)
+      if observation.respond_to?(:interpretation) && observation.interpretation.present?
+        base[:interpretation] = [{ text: observation.interpretation }]
+      end
+
+      # Reference range for quantity-like observations
+      rr = observation.try(:reference_range)
+      if rr.present? && !observation.is_a?(Observation::BloodPressure)
+        low = rr['low']
+        high = rr['high']
+        unit = rr['unit'] || observation.try(:unit)
+        ref = {}
+        ref[:low] = { value: low, unit: unit } if low
+        ref[:high] = { value: high, unit: unit } if high
+        ref[:text] = rr['text'] if rr['text']
+        base[:referenceRange] = [ref] if ref.any?
+      end
+
       if observation.is_a?(Observation::BloodPressure)
         components = []
         if observation.systolic.present?
-          components << {
+          comp = {
             code: { text: 'Systolic blood pressure' },
             valueQuantity: { value: observation.systolic.to_f, unit: observation.unit || 'mmHg' }
           }
+          if rr && rr['systolic']
+            srr = rr['systolic']
+            r = {}
+            r[:low] = { value: srr['low'], unit: observation.unit || 'mmHg' } if srr['low']
+            r[:high] = { value: srr['high'], unit: observation.unit || 'mmHg' } if srr['high']
+            comp[:referenceRange] = [r] if r.any?
+          end
+          components << comp
         end
         if observation.diastolic.present?
-          components << {
+          comp = {
             code: { text: 'Diastolic blood pressure' },
             valueQuantity: { value: observation.diastolic.to_f, unit: observation.unit || 'mmHg' }
           }
+          if rr && rr['diastolic']
+            drr = rr['diastolic']
+            r = {}
+            r[:low] = { value: drr['low'], unit: observation.unit || 'mmHg' } if drr['low']
+            r[:high] = { value: drr['high'], unit: observation.unit || 'mmHg' } if drr['high']
+            comp[:referenceRange] = [r] if r.any?
+          end
+          components << comp
         end
         base[:component] = components if components.any?
       end
@@ -47,4 +81,3 @@ module Fhir
 
   end
 end
-
