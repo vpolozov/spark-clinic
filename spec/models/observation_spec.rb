@@ -62,4 +62,49 @@ RSpec.describe Observation, type: :model do
       }.not_to have_enqueued_job(Observations::WebhookNotifyJob)
     end
   end
+  describe 'evaluation callback (before_validation on create)' do
+    it 'applies reference range and interpretation for glucose' do
+      account.update!(settings: account.settings.merge('reference_ranges' => {
+        'glucose' => { 'unit' => 'mg/dL', 'low' => 70, 'high' => 100 }
+      }))
+
+      obs = Observation::Glucose.create!(
+        account: account,
+        patient: patient,
+        status: 'final',
+        recorded_at: Time.current,
+        code: 'GLU',
+        value: 120,
+        unit: 'mg/dL'
+      )
+
+      expect(obs.interpretation).to eq('high')
+      expect(obs.reference_range).to include('low' => 70, 'high' => 100)
+    end
+
+    it 'applies component ranges and interpretation for blood pressure' do
+      account.update!(settings: account.settings.merge('reference_ranges' => {
+        'blood_pressure' => {
+          'unit' => 'mmHg',
+          'systolic' => { 'low' => 90, 'high' => 120 },
+          'diastolic' => { 'low' => 60, 'high' => 80 }
+        }
+      }))
+
+      obs = Observation::BloodPressure.create!(
+        account: account,
+        patient: patient,
+        status: 'final',
+        recorded_at: Time.current,
+        code: 'BP',
+        systolic: 125,
+        diastolic: 85,
+        unit: 'mmHg'
+      )
+
+      expect(obs.interpretation).to eq('high')
+      expect(obs.reference_range['systolic']).to include('high' => 120)
+      expect(obs.reference_range['diastolic']).to include('high' => 80)
+    end
+  end
 end

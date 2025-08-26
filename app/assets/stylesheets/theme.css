@@ -104,3 +104,16 @@ header .btn { padding: 0.35rem 0.6rem; }
   font-weight: 700;
 }
 .brand:hover { text-decoration: underline; }
+
+/* Badges for interpretations */
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+}
+.interp-high { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+.interp-low { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+.interp-normal { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }

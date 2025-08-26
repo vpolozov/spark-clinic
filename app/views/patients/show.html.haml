@@ -1,7 +1,7 @@
 .container
   .card
     %h1= @patient.name
-    %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
+    -# %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
 
   - @observations.each do |o|
     .card
@@ -14,6 +14,26 @@
       %div
         %strong Value:
         = o.display_result
+      - if o.interpretation.present?
+        %div
+          %strong Interpretation:
+          %span.badge{ class: "interp-#{o.interpretation}" }= o.interpretation.to_s.titleize
+      - if o.reference_range.present?
+        %div.muted
+          %strong Ref range:
+          - rr = o.reference_range
+          - if o.is_a?(Observation::BloodPressure)
+            - parts = []
+            - if rr['systolic'] && (rr['systolic']['low'] || rr['systolic']['high'])
+              - parts << "Sys #{[rr.dig('systolic','low'), rr.dig('systolic','high')].compact.join('–')} #{o.unit || 'mmHg'}"
+            - if rr['diastolic'] && (rr['diastolic']['low'] || rr['diastolic']['high'])
+              - parts << "Dia #{[rr.dig('diastolic','low'), rr.dig('diastolic','high')].compact.join('–')} #{o.unit || 'mmHg'}"
+            = parts.join(', ')
+          - else
+            - low = rr['low']
+            - high = rr['high']
+            - unit = rr['unit'] || (o.respond_to?(:unit) && o.unit)
+            = [ [low, high].compact.join('–'), unit ].compact.join(' ')
       %div.muted
         %strong Recorded:
         = o.recorded_at&.utc&.iso8601

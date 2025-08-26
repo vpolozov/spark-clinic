@@ -2,9 +2,17 @@ Account.destroy_all
 Patient.destroy_all
 Observation.destroy_all
 
+rrs = {
+  'blood_pressure' => {'unit' => 'mmHg',
+                       'systolic' => { 'low' => 90, 'high' => 160 },
+                       'diastolic' => { 'low' => 60, 'high' => 100 }},
+  'glucose' => { 'unit' => 'mg/dL', 'low' => 70, 'high' => 150 },
+  'weight' => { 'unit' => 'kg', 'low' => 60, 'high' => 120 },
+}
+
 a1 = Account.create!(name: "Blue Clinic", settings: {
   theme: "blue",
-  bp_systolic_high: 160, bp_diastolic_high: 100, glucose_high: 150,
+  reference_ranges: rrs,
   webhook_url: "/dev/webhook_sink"
 })
 a2 = Account.create!(name: "Green Clinic", settings: {
@@ -14,8 +22,8 @@ a2 = Account.create!(name: "Green Clinic", settings: {
 })
 a3 = Account.create!(name: "Pecan Clinic", settings: {
   theme: "light",
-  bp_systolic_high: 180, bp_diastolic_high: 110, glucose_high: 180,
-  webhook_url: "/dev/webhook_sink"
+  reference_ranges: rrs,
+  webhook_url: "https://webhook.site/9031a77b-9b46-4f44-a0aa-29cc74f33a5b" # https://webhook.site/#!/view/9031a77b-9b46-4f44-a0aa-29cc74f33a5b
 })
 
 def create_patient!(account, id, name)

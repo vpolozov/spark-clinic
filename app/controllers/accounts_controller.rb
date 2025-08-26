@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
     account = Account.resolve(params[:account])
     if account
       session[:account] = account.id
-      redirect_to root_path, notice: "Switched to #{account.name}"
+      redirect_to root_path #, notice: "Switched to #{account.name}"
     else
       redirect_back fallback_location: root_path, alert: 'Account not found'
     end

@@ -1,7 +1,7 @@
 .container
   .card
     %h1= "Patients (#{Current.account&.name})"
-    %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
+    -# %p.muted= "Theme: #{Current.account&.theme.presence || 'light'}"
 
   - @patients.each do |p|
     .card
