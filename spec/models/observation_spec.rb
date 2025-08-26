@@ -49,14 +49,14 @@ RSpec.describe Observation, type: :model do
 
   describe 'webhook enqueue' do
     it 'enqueues notify job on create when webhook_url present' do
-      account.update!(settings: account.settings.merge('webhook_url' => 'http://example.com/hook'))
+      account.update!(webhook_url: 'http://example.com/hook')
       expect {
         Observation::Glucose.create!(account: account, patient: patient, status: 'final', recorded_at: Time.current, code: 'GLU', value: 100, unit: 'mg/dL')
       }.to have_enqueued_job(Observations::WebhookNotifyJob)
     end
 
     it 'does not enqueue when webhook_url blank' do
-      account.update!(settings: account.settings.merge('webhook_url' => ''))
+      account.update!(webhook_url: '')
       expect {
         Observation::Glucose.create!(account: account, patient: patient, status: 'final', recorded_at: Time.current, code: 'GLU', value: 100, unit: 'mg/dL')
       }.not_to have_enqueued_job(Observations::WebhookNotifyJob)

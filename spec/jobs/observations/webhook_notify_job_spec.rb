@@ -20,7 +20,7 @@ RSpec.describe Observations::WebhookNotifyJob, type: :job do
   end
 
   it 'no-ops if webhook_url blank' do
-    account.update!(settings: account.settings.merge('webhook_url' => ''))
+    account.update!(webhook_url: '')
     obs = Observation::Glucose.create!(account: account, patient: patient, status: 'final', recorded_at: Time.current, code: 'GLU', value: 90, unit: 'mg/dL')
     expect(Net::HTTP).not_to receive(:post)
     described_class.new.perform(obs.id)

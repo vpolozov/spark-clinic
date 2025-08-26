@@ -67,12 +67,17 @@ class Observation < ApplicationRecord
   end
 
   after_commit :notify_webhook_async, on: :create
+  before_validation :apply_reference_and_interpretation, on: :create
 
   private
 
-    def notify_webhook_async
-      return unless account&.webhook_url.present?
-      Observations::WebhookNotifyJob.perform_later(id)
-    end
+  def notify_webhook_async
+    return unless account&.webhook_url.present?
+    Observations::WebhookNotifyJob.perform_later(id)
+  end
+
+  def apply_reference_and_interpretation
+    Observations::Evaluator.apply!(self)
+  end
 
 end
