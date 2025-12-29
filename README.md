@@ -1,5 +1,16 @@
 # Spark Clinic
 
+Spark Clinic is a greenfield Ruby on Rails SaaS sample application.
+
+It demonstrates core backend SaaS patterns including:
+- multi-tenant architecture
+- REST API design
+- background job processing
+- PostgreSQL data modeling
+- service-oriented backend structure
+
+The project focuses on backend architecture and code quality rather than UI completeness.
+
 ## Development (Docker Compose)
 
 - Start services: `docker compose up --build`
