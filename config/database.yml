@@ -37,6 +37,9 @@ development:
 test:
   <<: *default
   database: spark_clinic_test
+  host: <%= ENV.fetch("PGHOST") { "localhost" } %>
+  username: <%= ENV.fetch("PGUSER") { "spark" } %>
+  password: <%= ENV.fetch("PGPASSWORD") { "password" } %>
 
 # As with config/credentials.yml, you should store your production database here with credentials it's best kept outside of source control.
 # Use the `rails db:encrypt` command to encrypt a production database.yml file.
