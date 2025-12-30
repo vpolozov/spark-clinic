@@ -91,7 +91,7 @@ jobs:
           PGHOST: localhost
           PGUSER: rails
           PGPASSWORD: password
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails test
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v6
