@@ -1,5 +1,5 @@
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 class Observations::WebhookNotifyJob < ApplicationJob
   queue_as :default
@@ -16,11 +16,10 @@ class Observations::WebhookNotifyJob < ApplicationJob
     body = JSON.generate(payload)
 
     headers = {
-      'Content-Type' => 'application/fhir+json; charset=utf-8',
-      'User-Agent' => 'SparkClinic/1.0 Webhook'
+      "Content-Type" => "application/fhir+json; charset=utf-8",
+      "User-Agent" => "SparkClinic/1.0 Webhook"
     }
 
     Net::HTTP.post(uri, body, headers)
   end
 end
-

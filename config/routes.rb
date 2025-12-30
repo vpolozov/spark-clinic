@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-  resources :patients, only: [:index, :show]
+  resources :patients, only: [ :index, :show ]
 
   namespace :api do
     namespace :v1 do
       namespace :fhir do
-        resources :observations, only: [:create, :index], defaults: { format: :json }
+        resources :observations, only: [ :create, :index ], defaults: { format: :json }
         resources :bundles, only: :create, defaults: { format: :json }
       end
     end
   end
 
-  resource :account, only: [:edit, :update] do
+  resource :account, only: [ :edit, :update ] do
     post :switch
   end
 
@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  root 'patients#index'
+  root "patients#index"
 end

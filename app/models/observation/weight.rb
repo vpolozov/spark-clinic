@@ -9,7 +9,7 @@ class Observation::Weight < Observation
   private
 
   def set_defaults
-    self.category ||= 'vital-signs'
-    self.unit ||= 'kg'
+    self.category ||= "vital-signs"
+    self.unit ||= "kg"
   end
 end

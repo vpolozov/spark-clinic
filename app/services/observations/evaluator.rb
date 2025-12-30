@@ -19,23 +19,22 @@ module Observations
       return nil if rr.blank?
 
       if observation.is_a?(::Observation::BloodPressure)
-        sys_rr = rr['systolic'] || {}
-        dia_rr = rr['diastolic'] || {}
+        sys_rr = rr["systolic"] || {}
+        dia_rr = rr["diastolic"] || {}
         sys = observation.try(:systolic)&.to_f
         dia = observation.try(:diastolic)&.to_f
 
-        return 'high' if (sys && sys_rr['high'] && sys > sys_rr['high']) || (dia && dia_rr['high'] && dia > dia_rr['high'])
-        return 'low'  if (sys && sys_rr['low']  && sys < sys_rr['low'])  || (dia && dia_rr['low']  && dia < dia_rr['low'])
-        return 'normal'
+        return "high" if (sys && sys_rr["high"] && sys > sys_rr["high"]) || (dia && dia_rr["high"] && dia > dia_rr["high"])
+        return "low"  if (sys && sys_rr["low"]  && sys < sys_rr["low"])  || (dia && dia_rr["low"]  && dia < dia_rr["low"])
+        "normal"
       else
         val = observation.try(:value)
         return nil if val.nil?
         v = val.to_f
-        return 'high' if rr['high'] && v > rr['high']
-        return 'low'  if rr['low']  && v < rr['low']
-        return 'normal'
+        return "high" if rr["high"] && v > rr["high"]
+        return "low"  if rr["low"]  && v < rr["low"]
+        "normal"
       end
     end
   end
 end
-

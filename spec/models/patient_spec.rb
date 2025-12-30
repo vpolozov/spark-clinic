@@ -27,4 +27,3 @@ RSpec.describe Patient, type: :model do
     expect(ok).to be_valid
   end
 end
-

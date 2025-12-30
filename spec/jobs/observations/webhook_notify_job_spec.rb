@@ -26,4 +26,3 @@ RSpec.describe Observations::WebhookNotifyJob, type: :job do
     described_class.new.perform(obs.id)
   end
 end
-

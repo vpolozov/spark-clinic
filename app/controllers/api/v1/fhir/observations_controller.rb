@@ -1,5 +1,4 @@
 class Api::V1::Fhir::ObservationsController < Api::BaseController
-
   # GET /api/v1/fhir/observations
   # Optional filters: patient_external_id, code, type
   def index
@@ -29,5 +28,4 @@ class Api::V1::Fhir::ObservationsController < Api::BaseController
               :systolic, :diastolic
             )
     end
-
 end

@@ -9,7 +9,7 @@ class Observation::Glucose < Observation
   private
 
   def set_defaults
-    self.category ||= 'laboratory'
-    self.unit ||= 'mg/dL'
+    self.category ||= "laboratory"
+    self.unit ||= "mg/dL"
   end
 end

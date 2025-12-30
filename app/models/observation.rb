@@ -9,16 +9,16 @@ class Observation < ApplicationRecord
   validates :type, presence: true
 
   TYPES = {
-    glucose: 'Observation::Glucose',
-    blood_pressure: 'Observation::BloodPressure',
-    weight: 'Observation::Weight'
+    glucose: "Observation::Glucose",
+    blood_pressure: "Observation::BloodPressure",
+    weight: "Observation::Weight"
   }.freeze
 
   # Scopes for common queries
   TYPES.each do |code, class_name|
     scope code, -> { where(type: class_name) }
   end
-  scope :with_kind, -> (kind) { where(type: TYPES[kind]) }
+  scope :with_kind, ->(kind) { where(type: TYPES[kind]) }
   scope :recent, -> { order(recorded_at: :desc) }
 
   def self.kind = TYPES.key(name)
@@ -28,7 +28,7 @@ class Observation < ApplicationRecord
     # Simple quantity
     if respond_to?(:value) || respond_to?(:unit)
       val = try(:value)
-      return val.present? ? [val, try(:unit)].compact.join(" ") : "-"
+      return val.present? ? [ val, try(:unit) ].compact.join(" ") : "-"
     end
 
     "-"
@@ -37,8 +37,8 @@ class Observation < ApplicationRecord
   def in_reference_range?
     return true if reference_range.empty? || value.nil?
 
-    low = reference_range['low']
-    high = reference_range['high']
+    low = reference_range["low"]
+    high = reference_range["high"]
 
     if low && high
       value >= low && value <= high
@@ -79,5 +79,4 @@ class Observation < ApplicationRecord
   def apply_reference_and_interpretation
     Observations::Evaluator.apply!(self)
   end
-
 end

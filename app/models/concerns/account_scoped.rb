@@ -17,6 +17,5 @@ module AccountScoped
       def set_default_account
         self.account ||= Current.account
       end
-
   end
 end

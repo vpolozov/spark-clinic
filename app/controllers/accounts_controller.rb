@@ -7,7 +7,7 @@ class AccountsController < ApplicationController
       session[:account] = account.id
       redirect_to root_path
     else
-      redirect_back fallback_location: root_path, alert: 'Account not found'
+      redirect_back fallback_location: root_path, alert: "Account not found"
     end
   end
 
@@ -19,10 +19,10 @@ class AccountsController < ApplicationController
   def update
     @account = Current.account
     if @account.update(account_params)
-      redirect_to root_path, notice: 'Account updated'
+      redirect_to root_path, notice: "Account updated"
     else
       @themes = %w[light dark ocean blue green]
-      flash.now[:alert] = 'Could not update account'
+      flash.now[:alert] = "Could not update account"
       render :edit, status: :unprocessable_entity
     end
   end

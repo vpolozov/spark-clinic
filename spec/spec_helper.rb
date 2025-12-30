@@ -10,4 +10,3 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_gems_from_backtrace "rails", "rack", "rack-test", "activesupport"
 end
-

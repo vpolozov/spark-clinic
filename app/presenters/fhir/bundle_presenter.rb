@@ -6,8 +6,8 @@ module Fhir
 
     def as_json(_opts = nil)
       {
-        resourceType: 'Bundle',
-        type: 'searchset',
+        resourceType: "Bundle",
+        type: "searchset",
         total: records.size,
         entry: records.map { |o| entry_for(o) }
       }
@@ -25,4 +25,3 @@ module Fhir
     end
   end
 end
-

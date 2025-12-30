@@ -24,8 +24,7 @@ class ApplicationController < ActionController::Base
     end
 
     def theme_class
-      theme = Current.account&.theme.presence || 'light'
+      theme = Current.account&.theme.presence || "light"
       "theme-#{theme}"
     end
-
 end

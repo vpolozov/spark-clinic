@@ -15,4 +15,3 @@ RSpec.describe Utils::TimeUtils do
     end
   end
 end
-

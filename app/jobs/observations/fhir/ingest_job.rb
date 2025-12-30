@@ -11,35 +11,34 @@ class Observations::Fhir::IngestJob < ApplicationJob
   # - systolic/diastolic/unit for blood pressure
   def perform(account_id, attrs)
     account = Account.find(account_id)
-    patient = account.patients.find_by!(external_id: attrs['patient_external_id'])
+    patient = account.patients.find_by!(external_id: attrs["patient_external_id"])
 
-    klass = Observation.resolve_class(attrs['type'])
+    klass = Observation.resolve_class(attrs["type"])
 
     common = {
       account: account,
       patient: patient,
-      status: attrs['status'].presence || 'final',
-      category: attrs['category'],
-      code: attrs['code'],
-      recorded_at: Utils::TimeUtils.parse_iso8601(attrs['recorded_at'])
+      status: attrs["status"].presence || "final",
+      category: attrs["category"],
+      code: attrs["code"],
+      recorded_at: Utils::TimeUtils.parse_iso8601(attrs["recorded_at"])
     }
 
     attributes = case klass.kind
-                 when :blood_pressure
+    when :blood_pressure
                    common.merge(
-                     systolic: attrs['systolic'],
-                     diastolic: attrs['diastolic'],
-                     unit: attrs['unit'] || 'mmHg'
+                     systolic: attrs["systolic"],
+                     diastolic: attrs["diastolic"],
+                     unit: attrs["unit"] || "mmHg"
                    )
-                 else
-                   if attrs.key?('value') || attrs.key?('unit')
-                     common.merge(value: attrs['value'], unit: attrs['unit'])
+    else
+                   if attrs.key?("value") || attrs.key?("unit")
+                     common.merge(value: attrs["value"], unit: attrs["unit"])
                    else
                      common
                    end
-                 end
+    end
 
     klass.create!(attributes)
   end
-
 end

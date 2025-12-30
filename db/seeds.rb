@@ -3,11 +3,11 @@ Patient.destroy_all
 Observation.destroy_all
 
 rrs = {
-  'blood_pressure' => {'unit' => 'mmHg',
+  'blood_pressure' => { 'unit' => 'mmHg',
                        'systolic' => { 'low' => 90, 'high' => 160 },
-                       'diastolic' => { 'low' => 60, 'high' => 100 }},
+                       'diastolic' => { 'low' => 60, 'high' => 100 } },
   'glucose' => { 'unit' => 'mg/dL', 'low' => 70, 'high' => 150 },
-  'weight' => { 'unit' => 'kg', 'low' => 60, 'high' => 120 },
+  'weight' => { 'unit' => 'kg', 'low' => 60, 'high' => 120 }
 }
 
 a1 = Account.create!(name: "Blue Clinic", settings: {
@@ -27,7 +27,7 @@ a3 = Account.create!(name: "Pecan Clinic", settings: {
 })
 
 def create_patient!(account, id, name)
-  account.patients.create!(external_id: id, name: name, dob: Date.new(1980,1,1))
+  account.patients.create!(external_id: id, name: name, dob: Date.new(1980, 1, 1))
 end
 
 p1 = create_patient!(a1, "PT-1001", "Alice")
@@ -61,8 +61,8 @@ weight!(a1, p1, 70.4, now - 1.day)
 glucose!(a1, p1, 95,  now - 12.hours)
 glucose!(a1, p1, 142, now - 6.hours)
 
-a1_bp_times = [now - 36.hours, now - 18.hours, now - 2.hours]
-[[120,80],[138,88],[182,112]].zip(a1_bp_times).each do |(s,d), t|
+a1_bp_times = [ now - 36.hours, now - 18.hours, now - 2.hours ]
+[ [ 120, 80 ], [ 138, 88 ], [ 182, 112 ] ].zip(a1_bp_times).each do |(s, d), t|
   bp!(a1, p1, s, d, t)
 end
 
@@ -72,8 +72,8 @@ weight!(a1, p2, 81.5, now - 2.days)
 
 glucose!(a1, p2, 110, now - 1.day)
 
-a1_bp_times_bob = [now - 30.hours, now - 8.hours]
-[[128,84],[150,95]].zip(a1_bp_times_bob).each do |(s,d), t|
+a1_bp_times_bob = [ now - 30.hours, now - 8.hours ]
+[ [ 128, 84 ], [ 150, 95 ] ].zip(a1_bp_times_bob).each do |(s, d), t|
   bp!(a1, p2, s, d, t)
 end
 
